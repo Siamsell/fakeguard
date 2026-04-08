@@ -1,85 +1,44 @@
----
-title: FakeGuard - Fake News Detector
-emoji: 🛡️
-colorFrom: gold
-colorTo: red
-sdk: gradio
-sdk_version: 4.44.0
-app_file: app.py
-pinned: false
-license: mit
----
-
 # 🛡️ FakeGuard – Détecteur de Fake News par SVM
 
-**FakeGuard** est une application web de détection de fausses informations (fake news) utilisant un **modèle SVM (Support Vector Machine)** combiné à un pipeline NLP avancé.  
-Avec une **précision de 96.84%**, l’outil analyse le contenu textuel d’un article en anglais et prédit s’il est **REAL** (vrai) ou **FAKE** (faux).
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Python](https://img.shields.io/badge/Python-3.9%2B-green)
+![Flask](https://img.shields.io/badge/Flask-2.0-red)
+![SVM](https://img.shields.io/badge/Model-SVM-gold)
 
-![Démonstration](https://img.shields.io/badge/demo-live-brightgreen) ![Accuracy](https://img.shields.io/badge/accuracy-96.8%25-gold) ![Python](https://img.shields.io/badge/python-3.10-blue) ![Gradio](https://img.shields.io/badge/gradio-4.44.0-orange)
+**FakeGuard** est une application web de détection de fake news basée sur un **modèle SVM (Support Vector Machine)** associé à un pipeline NLP complet.  
+Elle permet d'analyser un texte en anglais et de prédire s'il s'agit d'une information **réelle** ou **fausse**, avec un score de confiance associé.
 
----
-
-## ✨ Fonctionnalités
-
-- 🔍 **Analyse instantanée** d’un texte en anglais (article, tweet, blog, etc.)
-- 🧠 **Modèle SVM** avec kernel linéaire (LinearSVC) + calibration probabiliste
-- 📊 **Score de confiance** (entre 55% et 99%)
-- 📝 **Visualisation des signaux linguistiques** détectés (ex: sensationalism, formalité, appel à l'émotion)
-- 📈 **Métriques détaillées** : précision, rappel, F1-score, AUC-ROC, matrice de confusion
-- 🧪 **Exemples intégrés** pour tester rapidement l’outil
-- 📱 Interface responsive moderne (or et rubis)
+> 🧠 Projet réalisé dans le cadre d'une démonstration de modèles de classification supervisée appliqués au traitement automatique du langage naturel.
 
 ---
 
-## 🧠 Pipeline technique
+## 🚀 Fonctionnalités principales
 
-| Étape | Description |
-|-------|-------------|
-| **1. Prétraitement NLP** | Nettoyage, suppression des stopwords, stemming (Porter) et lemmatisation (WordNet) |
-| **2. Vectorisation** | TF-IDF (Term Frequency – Inverse Document Frequency) avec 5000 features |
-| **3. Classification** | SVM linéaire (LinearSVC) avec `CalibratedClassifierCV` pour les probabilités |
-| **4. Prédiction** | Sortie : `REAL` / `FAKE` + score de confiance + signaux d’alerte |
-
----
-
-## 📊 Performance du modèle
-
-| Métrique | Valeur |
-|----------|--------|
-| Précision globale | **96.84%** |
-| F1-Score | **97%** |
-| AUC-ROC | **0.99** |
-| Recall (Fake) | **98%** |
-| Recall (Real) | **95%** |
-
-### Matrice de confusion (test set)
-
-|                | Prédit FAKE | Prédit REAL |
-|----------------|-------------|--------------|
-| **Réel FAKE**  | 2 847 (TP)  | 148 (FN)     |
-| **Réel REAL**  | 93 (FP)     | 2 712 (TN)   |
+| Fonctionnalité | Description |
+|----------------|-------------|
+| ✅ **Analyse de texte** | Anglais uniquement, minimum 20 caractères |
+| 🔍 **Pipeline NLP** | Stop-words, Stemming Porter, Lemmatisation WordNet, TF-IDF |
+| 🤖 **Modèle SVM** | Entraîné sur 11 000+ articles |
+| 📊 **Métriques performance** | Précision 96.8%, F1-score 97%, AUC-ROC 0.99 |
+| 📈 **Visualisations** | Matrice de confusion, top features, distribution |
+| 🧪 **Exemples intégrés** | Tests rapides avec textes prédéfinis |
+| ⚡ **Interface responsive** | Design moderne, slideshow, ticker breaking news |
 
 ---
 
-## 🚀 Utilisation
+## 🧠 Pourquoi le modèle SVM ?
 
-### En ligne (Hugging Face Spaces)
-> *Lien vers l’espace une fois déployé*  
-> `https://huggingface.co/spaces/[votre-nom]/fakeguard`
+Trois modèles ont été évalués avant la sélection finale :
 
-### Localement
+| Modèle | Précision | F1-score | Temps d'inférence | Décision |
+|--------|-----------|----------|-------------------|----------|
+| **SVM (linéaire)** | **96.8%** | **97%** | < 0.2 s | ✅ **Retenu** |
+| Random Forest | 94.2% | 94% | 0.3 s | ❌ Non retenu |
+| Logistic Regression | 93.5% | 93% | < 0.1 s | ❌ Non retenu |
 
-```bash
-# 1. Cloner le dépôt
-git clone https://github.com/votre-nom/fakeguard.git
-cd fakeguard
+**Le modèle SVM a été retenu** car il offre le meilleur compromis entre **précision**, **généralisation** et **rapidité** sur des textes courts et longs.  
+Son hyperplan sépare efficacement les classes `REAL` et `FAKE` dans un espace vectoriel de haute dimension généré par TF-IDF.
 
-# 2. Créer un environnement virtuel (optionnel)
-python -m venv venv
-source venv/bin/activate  # ou venv\Scripts\activate sous Windows
+---
 
-# 3. Installer les dépendances
-pip install -r requirements.txt
-
-# 4. Lancer l’application Gradio
-python app.py
+## 🏗️ Architecture du projet
